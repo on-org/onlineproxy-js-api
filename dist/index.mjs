@@ -1,14 +1,14 @@
 import R from "axios";
 class _ extends Error {
 }
-const u = class s extends Error {
+const h = class i extends Error {
   constructor(e, t = null) {
-    if (super(e), !t && e && e in s.errors)
-      throw new s(e, s.errors[e]);
-    Error.captureStackTrace(this, s);
+    if (super(e), !t && e && e in i.errors)
+      throw new i(e, i.errors[e]);
+    Error.captureStackTrace(this, i);
   }
 };
-u.errors = {
+h.errors = {
   ACCOUNT_BLOCKED: "account blocked",
   ERROR_WRONG_KEY: "wrong apikey",
   ERROR_NO_KEY: "no apikey",
@@ -45,14 +45,15 @@ u.errors = {
   ERROR_NO_SERVICE_REPEAT: "no services for repeated reception",
   SERVICE_TO_NUMBER_EMPTY: "no numbers for repeated reception for this service"
 };
-let E = u;
-const h = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36";
+let E = h;
+const u = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36";
 class d {
   constructor(e, t, r) {
     this.base = "https://onlineproxy.io/api/client/v1/", this.token = e, this.dev_id = r, this.lang = t, this.request = R.create({
       baseURL: "https://onlineproxy.io/api/client/v1/",
       headers: {
-        "User-Agent": h
+        "User-Agent": u,
+        Authorization: e
       }
     });
   }
@@ -67,7 +68,7 @@ class d {
   }
   createRequest(e) {
     const t = {
-      "User-Agent": h
+      "User-Agent": u
     };
     return e && (t.Authorization = `Bearer ${e}`), this.request = R.create({
       baseURL: this.base,
@@ -75,20 +76,20 @@ class d {
     }), this;
   }
   getRequest(e, t = {}, r = !0) {
-    this.token && (t.apikey = this.token), t.lang = this.lang, this.dev_id && (t.dev_id = this.dev_id);
-    let i = r ? ".php" : "";
-    return this.request.get(e + i, { params: t }).then((n) => {
-      const o = n.data;
-      if ("response" in o && o.response.toString() !== "1")
-        throw o.response.toString() === "NO_NUMBER" || o.response.toString() === "NO_NUMBER_FOR_FORWARD" ? new _(o.response.toString()) : new E(o.response.toString());
+    t.lang = this.lang, this.dev_id && (t.dev_id = this.dev_id);
+    let o = r ? ".php" : "";
+    return this.request.get(e + o, { params: t }).then((n) => {
+      const s = n.data;
+      if ("response" in s && s.response.toString() !== "1")
+        throw s.response.toString() === "NO_NUMBER" || s.response.toString() === "NO_NUMBER_FOR_FORWARD" ? new _(s.response.toString()) : new E(s.response.toString());
       return delete n.data.response, n.data;
     });
   }
   postRequest(e, t = {}) {
     return t.apikey = this.token, t.lang = this.lang, this.dev_id && (t.dev_id = this.dev_id), this.request.post(`${e}.php`, t).then((r) => {
-      const i = r.data;
-      if ("response" in i && i.response.toString() !== "1")
-        throw i.response.toString() === "NO_NUMBER" || i.response.toString() === "NO_NUMBER_FOR_FORWARD" ? new _(i.response.toString()) : new E(i.response.toString());
+      const o = r.data;
+      if ("response" in o && o.response.toString() !== "1")
+        throw o.response.toString() === "NO_NUMBER" || o.response.toString() === "NO_NUMBER_FOR_FORWARD" ? new _(o.response.toString()) : new E(o.response.toString());
       return delete r.data.response, r.data;
     });
   }

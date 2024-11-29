@@ -38,7 +38,8 @@ export default class _base {
     this.request = axios.create({
       baseURL: 'https://onlineproxy.io/api/client/v1/',
       headers: {
-        'User-Agent': userAgent
+        'User-Agent': userAgent,
+        Authorization: apiToken
       }
     });
   }
@@ -59,9 +60,6 @@ export default class _base {
   }
 
   getRequest(url: string, params: {[key: string]: any } = {}, suf = true) {
-    if(this.token) {
-      params.apikey = this.token;
-    }
     params.lang = this.lang;
     if(this.dev_id) {
       params.dev_id = this.dev_id;
