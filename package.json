@@ -1,6 +1,6 @@
 {
   "name": "onlineproxy-js-api",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Library for OnlineProxy Api",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",

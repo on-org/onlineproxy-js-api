@@ -140,7 +140,7 @@ print_r($tariffs);
 
 - **[OnlineProxy.io](https://onlineproxy.io)**: Official website for managing proxies.
 - **[GitHub Repository](https://github.com/on-org/onlineproxy-php-api)**: View the source code and contribute to the project.
-- **[Documentation](https://docs.onlineproxy.io)**: Comprehensive API documentation.
+- **[Documentation](https://onlineproxy.io/documentation/api/info)**: Comprehensive API documentation.
 
 ## 🐞 Reporting Issues
 
