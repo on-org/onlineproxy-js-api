@@ -133,6 +133,6 @@ export default class OnlineProxyDriver extends _base {
 
 if (typeof window !== 'undefined') {
   // @ts-ignore
-  window.OnlineSimDriver = OnlineSimDriver;
+  window.OnlineProxyDriver = OnlineProxyDriver;
 }
 
