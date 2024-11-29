@@ -1,6 +1,6 @@
 {
   "name": "onlineproxy-js-api",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Library for OnlineProxy Api",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -22,12 +22,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/on-org/onlineproxy-api-js.git"
+    "url": "https://github.com/on-org/onlineproxy-js-api.git"
   },
   "bugs": {
-    "url": "https://github.com/on-org/onlineproxy-api-js/issues"
+    "url": "https://github.com/on-org/onlineproxy-js-api/issues"
   },
-  "homepage": "https://github.com/on-org/onlineproxy-api-js",
+  "homepage": "https://github.com/on-org/onlineproxy-js-api",
   "keywords": [
     "sms",
     "OnlineProxy",
