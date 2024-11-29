@@ -1,236 +1,151 @@
-# OnlineProxy JS API
+# OnlineProxy PHP API
 
-[![npm version](https://badge.fury.io/js/onlineproxy-js-api.svg)](https://badge.fury.io/js/onlineproxy-js-api)
+[![version](https://badge.fury.io/gh/on-org%2Fonlineproxy-php-api.svg)](https://badge.fury.io/gh/on-org%2Fonlineproxy-php-api)
 
-Wrapper for automatic reception for managing proxies from [onlineproxy.io](https://onlineproxy.io) for Node.js and Vanilla JS.
+A PHP wrapper for managing proxies from [OnlineProxy.io](https://onlineproxy.io).
 
 ## 🌟 Features
 
-- 🌐 **Proxy Management**: Manage and use proxies from onlineproxy.io for enhanced privacy and security.
-- 🔒 **Full Typescript Support**: Enjoy full Typescript support for type-safe development.
-- 🛠️ **Easy Integration**: Seamlessly integrate with your Node.js or Vanilla JS projects.
-- 📚 **Comprehensive Documentation**: Detailed documentation and examples to help you get started quickly.
-- 🐞 **Bug Reporting**: Easily report and track bugs through GitHub Issues.
+- 🌐 **Proxy Management**: Easily manage proxies from OnlineProxy.io in your PHP projects.
+- 🛠️ **Simple Integration**: Straightforward setup and usage with clear, concise methods.
+- 📚 **Comprehensive API Support**: Access to a wide range of API functionalities, including managing proxies, fetching user balance, and ordering proxies.
+- 🐞 **Bug Reporting**: Quickly report issues through GitHub.
 
 ## ✨ Introduction
 
-`onlineproxy JS API` is a powerful and easy-to-use wrapper designed to simplify the process of integrating SMS and proxy services into your Node.js or Vanilla JS projects. With full Typescript support, you can enjoy type-safe development and efficient coding.
+`OnlineProxy PHP API` simplifies the integration of proxy management services into PHP applications. Its intuitive methods and straightforward design allow developers to focus on building applications without worrying about low-level HTTP integrations.
 
-## ⚙️ Quick Setup
+## ⚙️ Installation
 
-Install the package in your project with:
+To use the library in your PHP project, simply include the classes manually or through a PSR-4 autoloader (e.g., Composer):
 
-### Using npm:
 ```bash
-npm install onlineproxy-js-api
+composer require on-org/onlineproxy-php-api
 ```
 
-### Using pnpm:
-```bash
-pnpm install onlineproxy-js-api
+## 🗂 Quick Setup
+
+### Initialize the API Client
+
+```php
+require 'vendor/autoload.php';
+
+use onOrg\OnlineProxyApi\OnlineProxyApi;
+
+$apiKey = 'your_api_key_here';
+$locale = 'en'; // 'en', 'ru', or null for default
+$devId = null;  // Optional developer ID
+
+$client = new OnlineProxyApi($apiKey, $locale, $devId);
 ```
 
-### Using yarn:
-```bash
-yarn add onlineproxy-js-api
+## 🛠️ Methods
+
+### 🌍 `getProxyList`
+
+- **Description**: Retrieves a list of all available proxies.
+- **Example**:
+
+```php
+$proxies = $client->getProxyList();
+print_r($proxies);
 ```
 
-Then, integrate it into your project:
+### 🌐 `getProxy`
 
-```js
-import OnlineProxyDriver from "onlineproxy-js-api";
-
-const apikey = 'your_apikey_here';
-const driver = new OnlineProxyDriver(apikey);
-
-// Example usage for proxy management
-driver.getProxyList().then((result) => {
-  console.log(result);
-});
-```
-
-## 🗂 Documentation
-
-For detailed documentation and examples, please visit the **[Documentation](https://on-org.github.io/onlineproxy-js-api/)**.
-
-## 🐞 Bugs
-
-If you encounter any issues or have suggestions for improvements, please create an issue [here](https://github.com/on-org/onlineproxy-js-api/issues).
-
-## 🌐 OnlineProxy.io Integration
-
-The `onlineproxy JS API` also includes support for managing proxies from [onlineproxy.io](https://onlineproxy.io). This allows you to enhance your privacy and security by using high-quality proxies for your applications.
-
-### Example Usage
-
-```js
-import OnlineProxyDriver from "onlineproxy-js-api";
-
-const apikey = 'your_apikey_here';
-const driver = new OnlineProxyDriver(apikey);
-
-// Example usage for proxy management
-driver.getProxyList().then((result) => {
-  console.log(result);
-});
-```
-
-
-# 🛠️ Methods
-
-## 🌍 `getProxy`
-
-- **Type**: `(id: string) => Promise<Proxy>`
-- **Description**: Retrieves the proxy with the specified ID.
-- **docs**: [[ru](https://onlineproxy.io/ru/documentation/api/get/proxies_id_)] [[de](https://onlineproxy.io/de/documentation/api/get/proxies_id_)] [[en](https://onlineproxy.io/documentation/api/get/proxies_id_)].
+- **Description**: Retrieves details about a specific proxy by its ID.
 - **Parameters**:
-    - **id**: `string` — The ID of the proxy.
+  - `id` (string): The ID of the proxy.
 - **Example**:
 
-```typescript
-const driver = new OnlineProxyAPI('APIKEY', 'en', 123);
-
-driver.getProxy('proxy_id').then((result) => {
-  console.log(result);
-  // Output: { id: 'proxy_id', ip: '127.0.0.1', port: 8080, type: 'HTTP', country: 'USA', city: 'New York', anonymity: 'High', speed: 100, uptime: 99, lastChecked: '2023-01-01', createdAt: '2023-01-01', updatedAt: '2023-01-01', comment: 'Proxy comment' }
-});
+```php
+$proxyId = 'proxy_id_here';
+$proxy = $client->getProxy($proxyId);
+print_r($proxy);
 ```
 
-## 📜 `getProxyList`
+### 💰 `getUserBalance`
 
-- **Type**: `() => Promise<ProxyList>`
-- **Description**: Retrieves the list of all available proxies.
-- **docs**: [[ru](https://onlineproxy.io/ru/documentation/api/get/proxies)] [[de](https://onlineproxy.io/de/documentation/api/get/proxies)] [[en](https://onlineproxy.io/documentation/api/get/proxies)].
+- **Description**: Retrieves the current user balance.
 - **Example**:
 
-```typescript
-const driver = new OnlineProxyAPI('APIKEY', 'en', 123);
-
-driver.getProxyList().then((result) => {
-  console.log(result);
-  // Output: { proxies: [{ id: 'proxy_id', ip: '127.0.0.1', port: 8080, type: 'HTTP', country: 'USA', city: 'New York', anonymity: 'High', speed: 100, uptime: 99, lastChecked: '2023-01-01', createdAt: '2023-01-01', updatedAt: '2023-01-01', comment: 'Proxy comment' }] }
-});
+```php
+$balance = $client->getUserBalance();
+print_r($balance);
 ```
 
-## 🔄 `rotateProxy`
+### 🔄 `rotateProxy`
 
-- **Type**: `() => Promise<RotateResult>`
-- **Description**: Rotates the IP address of the proxy.
-- **docs**: [[ru](https://onlineproxy.io/ru/documentation/api/get/rotate)] [[de](https://onlineproxy.io/de/documentation/api/get/rotate)] [[en](https://onlineproxy.io/documentation/api/get/rotate)].
+- **Description**: Rotates the IP address of an active proxy.
 - **Example**:
 
-```typescript
-const driver = new OnlineProxyAPI('APIKEY', 'en', 123);
-
-driver.rotateProxy().then((result) => {
-  console.log(result);
-  // Output: { success: true, newIp: '127.0.0.2' }
-});
+```php
+$rotationResult = $client->rotateProxy();
+print_r($rotationResult);
 ```
 
-## 💬 `createOrUpdateProxyComment`
+### 💬 `createOrUpdateProxyComment`
 
-- **Type**: `(id: string, comment: string) => Promise<CommentResult>`
-- **Description**: Creates or updates the comment for a specific proxy.
-- **docs**: [[ru](https://onlineproxy.io/ru/documentation/api/post/proxies_id__comment)] [[de](https://onlineproxy.io/de/documentation/api/post/proxies_id__comment)] [[en](https://onlineproxy.io/documentation/api/post/proxies_id__comment)].
+- **Description**: Adds or updates a comment for a specific proxy.
 - **Parameters**:
-    - **id**: `string` — The ID of the proxy.
-    - **comment**: `string` — The comment to create or update.
+  - `id` (string): The ID of the proxy.
+  - `comment` (string): The comment to add or update.
 - **Example**:
 
-```typescript
-const driver = new OnlineProxyAPI('APIKEY', 'en', 123);
-
-driver.createOrUpdateProxyComment('proxy_id', 'New comment').then((result) => {
-  console.log(result);
-  // Output: { success: true, message: 'Comment updated' }
-});
+```php
+$proxyId = 'proxy_id_here';
+$comment = 'New comment';
+$result = $client->createOrUpdateProxyComment($proxyId, $comment);
+print_r($result);
 ```
 
-## 📋 `getAvailableProxiesForOrder`
+### 📋 `getAvailableProxiesForOrder`
 
-- **Type**: `() => Promise<AvailableProxies>`
-- **Description**: Retrieves the list of proxies available for order, matching the input filtering criteria.
-- **docs**: [[ru](https://onlineproxy.io/ru/documentation/api/get/filters)] [[de](https://onlineproxy.io/de/documentation/api/get/filters)] [[en](https://onlineproxy.io/documentation/api/get/filters)].
+- **Description**: Fetches a list of proxies available for order.
 - **Example**:
 
-```typescript
-const driver = new OnlineProxyAPI('APIKEY', 'en', 123);
-
-driver.getAvailableProxiesForOrder().then((result) => {
-  console.log(result);
-  // Output: { proxies: [{ id: 'proxy_id', ip: '127.0.0.1', port: 8080, type: 'HTTP', country: 'USA', city: 'New York', anonymity: 'High', speed: 100, uptime: 99, lastChecked: '2023-01-01', createdAt: '2023-01-01', updatedAt: '2023-01-01', comment: 'Proxy comment' }] }
-});
+```php
+$availableProxies = $client->getAvailableProxiesForOrder();
+print_r($availableProxies);
 ```
 
-## 🛒 `orderProxy`
+### 🛒 `orderProxy`
 
-- **Type**: `(orderData: any) => Promise<OrderResult>`
-- **Description**: Orders a proxy.
-- **docs**: [[ru](https://onlineproxy.io/ru/documentation/api/post/order)] [[de](https://onlineproxy.io/de/documentation/api/post/order)] [[en](https://onlineproxy.io/documentation/api/post/order)].
+- **Description**: Orders a new proxy.
 - **Parameters**:
-    - **orderData**: `any` — The data required to place an order.
+  - `orderData` (array): An array of order details.
 - **Example**:
 
-```typescript
-const driver = new OnlineProxyAPI('APIKEY', 'en', 123);
-
-const orderData = { proxyId: 'proxy_id', quantity: 1 };
-driver.orderProxy(orderData).then((result) => {
-  console.log(result);
-  // Output: { success: true, orderId: 'order123' }
-});
+```php
+$orderData = [
+    'proxyType' => 'HTTP',
+    'quantity' => 1,
+    'location' => 'USA',
+];
+$orderResult = $client->orderProxy($orderData);
+print_r($orderResult);
 ```
 
-## 📊 `getProxyTariffs`
+### 📊 `getProxyTariffs`
 
-- **Type**: `() => Promise<Tariffs>`
-- **docs**: [[ru](https://onlineproxy.io/ru/documentation/api/get/tariffs)] [[de](https://onlineproxy.io/de/documentation/api/get/tariffs)] [[en](https://onlineproxy.io/documentation/api/get/tariffs)].
-- **Description**: Retrieves the available periods and the minimum order price of proxies, matching the input filtering criteria.
+- **Description**: Retrieves available proxy tariffs.
 - **Example**:
 
-```typescript
-const driver = new OnlineProxyAPI('APIKEY', 'en', 123);
-
-driver.getProxyTariffs().then((result) => {
-  console.log(result);
-  // Output: { tariffs: [{ period: '1 month', price: 10 }] }
-});
+```php
+$tariffs = $client->getProxyTariffs();
+print_r($tariffs);
 ```
-
-## 💰 `getUserBalance`
-
-- **Type**: `() => Promise<UserBalance>`
-- **Description**: Retrieves the user balance.
-- **docs**: [[ru](https://onlineproxy.io/ru/documentation/api/get/balance)] [[de](https://onlineproxy.io/documentation/api/get/balance)] [[en](https://onlineproxy.io/documentation/api/get/balance)].
-- **Example**:
-
-```typescript
-const driver = new OnlineProxyAPI('APIKEY', 'en', 123);
-
-driver.getUserBalance().then((result) => {
-  console.log(result);
-  // Output: { balance: 100 }
-});
-```
-
-# Example
-
-```typescript
-const driver = new OnlineProxyAPI('APIKEY', 'en', 123);
-
-driver.getProxy('proxy_id').then((proxy) => {
-  console.log('Proxy:', proxy);
-});
-
-driver.getUserBalance().then((balance) => {
-  console.log('Balance:', balance);
-});
-```
-
 
 ## 📚 Additional Resources
 
-- **[onlineproxy.io](https://onlineproxy.io)**: Official website for proxy services.
-- **[GitHub Repository](https://github.com/on-org/onlineproxy-js-api)**: Source code and issue tracking.
-# onlineproxy-js-api
+- **[OnlineProxy.io](https://onlineproxy.io)**: Official website for managing proxies.
+- **[GitHub Repository](https://github.com/on-org/onlineproxy-php-api)**: View the source code and contribute to the project.
+- **[Documentation](https://docs.onlineproxy.io)**: Comprehensive API documentation.
+
+## 🐞 Reporting Issues
+
+If you encounter any issues or have suggestions for improvements, please create an issue on our [GitHub repository](https://github.com/on-org/onlineproxy-php-api/issues).
+
+---
+
+Happy coding with `OnlineProxy PHP API`!

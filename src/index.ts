@@ -35,7 +35,15 @@ export interface CommentResult {
 }
 
 export interface AvailableProxies {
-  proxies: Proxy[];
+  proxies: AvailableProxy[];
+}
+
+export interface AvailableProxy {
+  countries: { [key: number]: string };
+  regions: { [key: number]: string };
+  cities: { geo_city: string, geo_country: string }[];
+  operators: { geo_operator: string, geo_country: string }[];
+  // Другие необходимые свойства для Proxy
 }
 
 export interface OrderResult {
