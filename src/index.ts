@@ -1,44 +1,65 @@
-import {
-  AvailableProxies,
-  CommentResult,
-  GetOnlineProxy,
-  OrderResult,
-  Proxy,
-  ProxyList,
-  RotateResult,
-  Tariffs,
-  UserBalance
-} from './Apis/GetOnlineProxy';
 import _base from './_base';
 
+
+export interface Proxy {
+  id: number;
+  login: string;
+  password: string;
+  protocol: string;
+  host: string;
+  port: number;
+  geo_country: string;
+  geo_city: string;
+  geo_operator: string;
+  private: boolean;
+  comment: null|string;
+  rotate_ip_url: string;
+  rotate_ip_freq: number;
+  start_at: string;
+  stop_at: string;
+
+}
+
+export interface ProxyList {
+  proxies: Proxy[];
+}
+
+export interface RotateResult {
+  success: boolean;
+  newIp: string;
+}
+
+export interface CommentResult {
+  success: boolean;
+  message: string;
+}
+
+export interface AvailableProxies {
+  proxies: Proxy[];
+}
+
+export interface OrderResult {
+  success: boolean;
+  orderId: string;
+}
+
+export interface Tariff {
+  period: string;
+  price: number;
+}
+
+export interface Tariffs {
+  tariffs: Tariff[];
+}
+
+export interface UserBalance {
+  balance: number;
+}
+
 export default class OnlineProxyDriver extends _base {
-  private oauth: null|string = null;
-  private base: string = 'https://onlinesim.host/api/';
 
   constructor(apiToken: string|null = null, lang = 'en', dev_id: number|null = null) {
     super(apiToken, lang, dev_id);
-  }
-
-
-  setBase(base = 'https://onlinesim.host/api/') {
-    this.base = base;
-    return this;
-  }
-
-
-  setOauth(token: string|null) {
-    this.oauth = token;
-    return this;
-  }
-
-  setToken(token: string|null) {
-    this.token = token;
-    return this;
-  }
-
-  setLang(lang: string) {
-    this.lang = lang;
-    return this;
   }
 
   /**

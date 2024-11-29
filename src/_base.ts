@@ -14,6 +14,22 @@ export default class _base {
   protected request: AxiosInstance;
   protected dev_id: number|null;
   protected lang: string;
+  protected base: string = 'https://onlineproxy.io/api/client/v1/';
+
+  setBase(base = 'https://onlineproxy.io/api/client/v1/') {
+    this.base = base;
+    return this;
+  }
+
+  setToken(token: string|null) {
+    this.token = token;
+    return this;
+  }
+
+  setLang(lang: string) {
+    this.lang = lang;
+    return this;
+  }
 
   constructor(apiToken: string|null, lang: string, dev_id: number|null) {
     this.token = apiToken;
@@ -27,7 +43,7 @@ export default class _base {
     });
   }
 
-  createRequest(token: string|null, base = 'https://onlineproxy.io/api/') {
+  createRequest(token: string|null) {
     const headers: {[key: string]: string} = {
       'User-Agent': userAgent
     };
@@ -36,7 +52,7 @@ export default class _base {
     }
 
     this.request = axios.create({
-      baseURL: base,
+      baseURL: this.base,
       headers: headers
     });
     return this;

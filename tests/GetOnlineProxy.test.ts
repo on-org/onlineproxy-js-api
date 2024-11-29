@@ -1,13 +1,13 @@
-import {GetOnlineProxy} from '../src/Apis/GetOnlineProxy';
-import _base from '../src/Apis/_base';
+import OnlineProxyDriver from '../src/';
+import _base from '../src/_base';
 
-jest.mock('../src/Apis/_base');
+jest.mock('../src/_base');
 
 describe('GetOnlineProxy', () => {
-  let getOnlineProxy: GetOnlineProxy;
+  let getOnlineProxy: OnlineProxyDriver;
 
   beforeEach(() => {
-    getOnlineProxy = new GetOnlineProxy('apiToken', 'en', 123);
+    getOnlineProxy = new OnlineProxyDriver('apiToken', 'en', 123);
     (_base as any).mockClear();
   });
 

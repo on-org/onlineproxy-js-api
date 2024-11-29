@@ -1,14 +1,14 @@
-import l from "axios";
-class p extends Error {
+import R from "axios";
+class _ extends Error {
 }
-const _ = class h extends Error {
+const u = class s extends Error {
   constructor(e, t = null) {
-    if (super(e), !t && e && e in h.errors)
-      throw new h(e, h.errors[e]);
-    Error.captureStackTrace(this, h);
+    if (super(e), !t && e && e in s.errors)
+      throw new s(e, s.errors[e]);
+    Error.captureStackTrace(this, s);
   }
 };
-_.errors = {
+u.errors = {
   ACCOUNT_BLOCKED: "account blocked",
   ERROR_WRONG_KEY: "wrong apikey",
   ERROR_NO_KEY: "no apikey",
@@ -45,189 +45,58 @@ _.errors = {
   ERROR_NO_SERVICE_REPEAT: "no services for repeated reception",
   SERVICE_TO_NUMBER_EMPTY: "no numbers for repeated reception for this service"
 };
-let c = _;
-const d = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36";
-class u {
+let E = u;
+const h = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36";
+class d {
   constructor(e, t, r) {
-    this.token = e, this.dev_id = r, this.lang = t, this.request = l.create({
-      baseURL: "https://onlinesim.host/api/",
+    this.base = "https://onlineproxy.io/api/client/v1/", this.token = e, this.dev_id = r, this.lang = t, this.request = R.create({
+      baseURL: "https://onlineproxy.io/api/",
       headers: {
-        "User-Agent": d
+        "User-Agent": h
       }
     });
   }
-  createRequest(e, t = "https://onlinesim.host/api/") {
-    const r = {
-      "User-Agent": d
+  setBase(e = "https://onlineproxy.io/api/client/v1/") {
+    return this.base = e, this;
+  }
+  setToken(e) {
+    return this.token = e, this;
+  }
+  setLang(e) {
+    return this.lang = e, this;
+  }
+  createRequest(e) {
+    const t = {
+      "User-Agent": h
     };
-    return e && (r.Authorization = `Bearer ${e}`), this.request = l.create({
-      baseURL: t,
-      headers: r
+    return e && (t.Authorization = `Bearer ${e}`), this.request = R.create({
+      baseURL: this.base,
+      headers: t
     }), this;
   }
   getRequest(e, t = {}, r = !0) {
     this.token && (t.apikey = this.token), t.lang = this.lang, this.dev_id && (t.dev_id = this.dev_id);
-    let s = r ? ".php" : "";
-    return this.request.get(e + s, { params: t }).then((i) => {
-      const n = i.data;
-      if ("response" in n && n.response.toString() !== "1")
-        throw n.response.toString() === "NO_NUMBER" || n.response.toString() === "NO_NUMBER_FOR_FORWARD" ? new p(n.response.toString()) : new c(n.response.toString());
-      return delete i.data.response, i.data;
+    let i = r ? ".php" : "";
+    return this.request.get(e + i, { params: t }).then((n) => {
+      const o = n.data;
+      if ("response" in o && o.response.toString() !== "1")
+        throw o.response.toString() === "NO_NUMBER" || o.response.toString() === "NO_NUMBER_FOR_FORWARD" ? new _(o.response.toString()) : new E(o.response.toString());
+      return delete n.data.response, n.data;
     });
   }
   postRequest(e, t = {}) {
     return t.apikey = this.token, t.lang = this.lang, this.dev_id && (t.dev_id = this.dev_id), this.request.post(`${e}.php`, t).then((r) => {
-      const s = r.data;
-      if ("response" in s && s.response.toString() !== "1")
-        throw s.response.toString() === "NO_NUMBER" || s.response.toString() === "NO_NUMBER_FOR_FORWARD" ? new p(s.response.toString()) : new c(s.response.toString());
+      const i = r.data;
+      if ("response" in i && i.response.toString() !== "1")
+        throw i.response.toString() === "NO_NUMBER" || i.response.toString() === "NO_NUMBER_FOR_FORWARD" ? new _(i.response.toString()) : new E(i.response.toString());
       return delete r.data.response, r.data;
     });
   }
 }
-function m(o, e) {
-  return new Promise((t) => setTimeout(() => t(e), o));
-}
-class E extends u {
-  price(e, t = 7) {
-    return this.getRequest("getPrice", { service: e, country: t }).then((r) => r.price);
+class c extends d {
+  constructor(e = null, t = "en", r = null) {
+    super(e, t, r);
   }
-  get(e, t = 7, r = [], s = !1) {
-    return this.getRequest("getNum", { service: e, country: t, reject: r, extension: s }).then((i) => i.tzid);
-  }
-  getWithNumber(e, t = 7, r = [], s = !1) {
-    return this.getRequest("getNum", { service: e, country: t, reject: r, extension: s, number: !0 }).then((i) => ({ tzid: i.tzid, number: i.number, country: t }));
-  }
-  state(e = 1, t = "ASC", r = !0, s = !0, i = !1) {
-    return this.getRequest("getState", { message_to_code: e, orderby: t, msg_list: r ? 1 : 0, clean: s ? 1 : 0, type: i ? "repeat" : "index" }).then((n) => n);
-  }
-  stateOne(e, t = 1, r = !0, s = !0, i = !1) {
-    return this.getRequest("getState", { tzid: e, message_to_code: t, msg_list: r, clean: s, repeat: i }).then((n) => n[0]);
-  }
-  next(e) {
-    return this.getRequest("setOperationRevise", { tzid: e }).then((t) => !0);
-  }
-  close(e) {
-    return this.getRequest("setOperationOk", { tzid: e }).then((t) => !0);
-  }
-  ban(e) {
-    return this.getRequest("setOperationOk", { tzid: e, ban: 1 }).then((t) => !0);
-  }
-  repeat(e, t) {
-    return this.getRequest("getNumRepeat", { service: e, number: t }).then((r) => r.tzid);
-  }
-  tariffs() {
-    return this.getRequest("getNumbersStats", { country: "all" }).then((e) => e);
-  }
-  tariffsOne(e = 7) {
-    return this.getRequest("getNumbersStats", { country: e }).then((t) => t);
-  }
-  service() {
-    return this.getRequest("getService", {}).then((e) => e.service);
-  }
-  serviceNumber(e) {
-    return this.getRequest("getServiceNumber", { service: e }).then((t) => t.number);
-  }
-  async wait_code(e, t = 10, r = null, s = !1, i = !1) {
-    let n = "", R = 1;
-    i && (R = 0);
-    let g = 0;
-    for (; ; ) {
-      if (await m(t), g += 1, g >= 10)
-        throw new Error("Timeout error");
-      const a = await this.stateOne(e, R, !1);
-      if ("msg" in a && !s && a.msg != n) {
-        n = a.msg, await this.close(e);
-        break;
-      } else if ("msg" in a && s && a.msg != n) {
-        n = a.msg, await this.next(e);
-        break;
-      }
-    }
-    return r && r(n), n;
-  }
-}
-class O extends u {
-  get(e = 7, t = 1, r = !1) {
-    return this.getRequest("rent/getRentNum", { country: e, days: t, extension: r, pagination: !1 }).then((s) => s.item);
-  }
-  state() {
-    return this.getRequest("rent/getRentState", { pagination: !1 }).then((e) => e.list);
-  }
-  stateOne(e) {
-    return this.getRequest("rent/getRentState", { tzid: e, pagination: !1 }).then((t) => t.list[0]);
-  }
-  extend(e, t = 1) {
-    return this.getRequest("rent/extendRentState", { tzid: e, days: t }).then((r) => r.item);
-  }
-  portReload(e) {
-    return this.getRequest("rent/portReload", { tzid: e }).then((t) => !0);
-  }
-  tariffs() {
-    return this.getRequest("rent/tariffsRent").then((e) => e);
-  }
-  tariffsOne(e = 7) {
-    return this.getRequest("rent/tariffsRent", { country: e }).then((t) => t);
-  }
-  close(e) {
-    return this.getRequest("rent/closeRentNum", { tzid: e }).then((t) => !0);
-  }
-}
-class N extends u {
-  tariffs() {
-    return this.getRequest("proxy/tariffs", {}).then((e) => e);
-  }
-  get(e = "days", t = "private", r = "https", s = 1, i = null, n = "any", R = "any", g = 1, a = !0) {
-    return this.getRequest("proxy/getProxy", { class: e, type: t, connect: r, count: s, operator: i, country: n, city: R, port_count: g, session: a }).then((f) => f.item);
-  }
-  state(e = "ASC") {
-    return this.getRequest("proxy/getState", { orderby: e }).then((t) => t.list);
-  }
-  stateOne(e) {
-    return this.getRequest("proxy/getState", { tzid: e }).then((t) => t.list[0]);
-  }
-  changeIp(e) {
-    return this.getRequest("proxy/changeIp", { tzid: e }).then((t) => !0);
-  }
-  changeType(e) {
-    return this.getRequest("proxy/changeType", { tzid: e }).then((t) => t.connect_type);
-  }
-  setComment(e, t = "") {
-    return this.getRequest("proxy/setComment", { tzid: e, comment: t }).then((r) => !0);
-  }
-}
-class q extends u {
-  balance() {
-    return this.getRequest("getBalance", { income: !0 }).then((e) => ({
-      balance: e.balance,
-      zbalance: e.zbalance,
-      income: e.income
-    }));
-  }
-  profile() {
-    return this.getRequest("getProfile", { income: !0 }).then((e) => e.profile);
-  }
-  getPaymentHistory() {
-    return this.getRequest("getPaymentHistory").then((e) => e);
-  }
-  createEmpty(e) {
-    return this.getRequest("pay/createEmpty", e, !1).then((t) => t);
-  }
-}
-class b extends u {
-  countries() {
-    return this.getRequest("getFreeCountryList", {}).then((e) => e.countries);
-  }
-  numbers(e) {
-    return this.getRequest("getFreePhoneList", { country: e }).then((t) => t.numbers);
-  }
-  messages(e, t = 1) {
-    return this.getRequest("getFreeMessageList", { phone: e, page: t }).then((r) => r.messages.data);
-  }
-  freeList() {
-    return this.getRequest("getFreeList", {}).then((e) => e);
-  }
-}
-class y extends u {
   /**
    * Returns proxy.
    * @param id - The ID of the proxy.
@@ -289,42 +158,7 @@ class y extends u {
     return this.getRequest("balance", {}, !1);
   }
 }
-class x {
-  constructor(e = null, t = "en", r = null) {
-    this.oauth = null, this.base = "https://onlinesim.host/api/", this.token = e, this.dev_id = r, this.lang = t;
-  }
-  setBase(e = "https://onlinesim.host/api/") {
-    return this.base = e, this;
-  }
-  setOauth(e) {
-    return this.oauth = e, this;
-  }
-  setToken(e) {
-    return this.token = e, this;
-  }
-  setLang(e) {
-    return this.lang = e, this;
-  }
-  numbers() {
-    return new E(this.token, this.lang, this.dev_id).createRequest(this.oauth, this.base);
-  }
-  rent() {
-    return new O(this.token, this.lang, this.dev_id).createRequest(this.oauth, this.base);
-  }
-  proxy() {
-    return new N(this.token, this.lang, this.dev_id).createRequest(this.oauth, this.base);
-  }
-  user() {
-    return new q(this.token, this.lang, this.dev_id).createRequest(this.oauth, this.base);
-  }
-  free() {
-    return new b(this.token, this.lang, this.dev_id).createRequest(this.oauth, this.base);
-  }
-  onlineProxy() {
-    return new y(this.token, this.lang, this.dev_id).createRequest(this.token, "https://onlineproxy.io/api/client/v1/");
-  }
-}
-typeof window < "u" && (window.OnlineSimDriver = x);
+typeof window < "u" && (window.OnlineSimDriver = OnlineSimDriver);
 export {
-  x as default
+  c as default
 };

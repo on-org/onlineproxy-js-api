@@ -1,24 +1,57 @@
-import { GetNumbers } from './Apis/GetNumbers';
-import { GetRent } from './Apis/GetRent';
-import { GetProxy } from './Apis/GetProxy';
-import { GetUser } from './Apis/GetUser';
-import { GetFree } from './Apis/GetFree';
-import { GetOnlineProxy } from './Apis/GetOnlineProxy';
-export default class OnlineSimDriver {
-    private token;
-    private dev_id;
-    private lang;
-    private oauth;
-    private base;
+import { default as _base } from './_base';
+export interface Proxy {
+    id: number;
+    login: string;
+    password: string;
+    protocol: string;
+    host: string;
+    port: number;
+    geo_country: string;
+    geo_city: string;
+    geo_operator: string;
+    private: boolean;
+    comment: null | string;
+    rotate_ip_url: string;
+    rotate_ip_freq: number;
+    start_at: string;
+    stop_at: string;
+}
+export interface ProxyList {
+    proxies: Proxy[];
+}
+export interface RotateResult {
+    success: boolean;
+    newIp: string;
+}
+export interface CommentResult {
+    success: boolean;
+    message: string;
+}
+export interface AvailableProxies {
+    proxies: Proxy[];
+}
+export interface OrderResult {
+    success: boolean;
+    orderId: string;
+}
+export interface Tariff {
+    period: string;
+    price: number;
+}
+export interface Tariffs {
+    tariffs: Tariff[];
+}
+export interface UserBalance {
+    balance: number;
+}
+export default class OnlineProxyDriver extends _base {
     constructor(apiToken?: string | null, lang?: string, dev_id?: number | null);
-    setBase(base?: string): this;
-    setOauth(token: string | null): this;
-    setToken(token: string | null): this;
-    setLang(lang: string): this;
-    numbers(): GetNumbers;
-    rent(): GetRent;
-    proxy(): GetProxy;
-    user(): GetUser;
-    free(): GetFree;
-    onlineProxy(): GetOnlineProxy;
+    getProxy(id: string): Promise<Proxy>;
+    getProxyList(): Promise<ProxyList>;
+    rotateProxy(): Promise<RotateResult>;
+    createOrUpdateProxyComment(id: string, comment: string): Promise<CommentResult>;
+    getAvailableProxiesForOrder(): Promise<AvailableProxies>;
+    orderProxy(orderData: any): Promise<OrderResult>;
+    getProxyTariffs(): Promise<Tariffs>;
+    getUserBalance(): Promise<UserBalance>;
 }
