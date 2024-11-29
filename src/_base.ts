@@ -36,7 +36,7 @@ export default class _base {
     this.dev_id = dev_id;
     this.lang = lang;
     this.request = axios.create({
-      baseURL: 'https://onlineproxy.io/api/',
+      baseURL: 'https://onlineproxy.io/api/client/v1/',
       headers: {
         'User-Agent': userAgent
       }

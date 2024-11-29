@@ -50,7 +50,7 @@ const h = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (K
 class d {
   constructor(e, t, r) {
     this.base = "https://onlineproxy.io/api/client/v1/", this.token = e, this.dev_id = r, this.lang = t, this.request = R.create({
-      baseURL: "https://onlineproxy.io/api/",
+      baseURL: "https://onlineproxy.io/api/client/v1/",
       headers: {
         "User-Agent": h
       }
@@ -76,19 +76,19 @@ class d {
   }
   getRequest(e, t = {}, r = !0) {
     this.token && (t.apikey = this.token), t.lang = this.lang, this.dev_id && (t.dev_id = this.dev_id);
-    let o = r ? ".php" : "";
-    return this.request.get(e + o, { params: t }).then((n) => {
-      const i = n.data;
-      if ("response" in i && i.response.toString() !== "1")
-        throw i.response.toString() === "NO_NUMBER" || i.response.toString() === "NO_NUMBER_FOR_FORWARD" ? new _(i.response.toString()) : new E(i.response.toString());
+    let i = r ? ".php" : "";
+    return this.request.get(e + i, { params: t }).then((n) => {
+      const o = n.data;
+      if ("response" in o && o.response.toString() !== "1")
+        throw o.response.toString() === "NO_NUMBER" || o.response.toString() === "NO_NUMBER_FOR_FORWARD" ? new _(o.response.toString()) : new E(o.response.toString());
       return delete n.data.response, n.data;
     });
   }
   postRequest(e, t = {}) {
     return t.apikey = this.token, t.lang = this.lang, this.dev_id && (t.dev_id = this.dev_id), this.request.post(`${e}.php`, t).then((r) => {
-      const o = r.data;
-      if ("response" in o && o.response.toString() !== "1")
-        throw o.response.toString() === "NO_NUMBER" || o.response.toString() === "NO_NUMBER_FOR_FORWARD" ? new _(o.response.toString()) : new E(o.response.toString());
+      const i = r.data;
+      if ("response" in i && i.response.toString() !== "1")
+        throw i.response.toString() === "NO_NUMBER" || i.response.toString() === "NO_NUMBER_FOR_FORWARD" ? new _(i.response.toString()) : new E(i.response.toString());
       return delete r.data.response, r.data;
     });
   }
