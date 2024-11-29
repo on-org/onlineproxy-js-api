@@ -53,7 +53,7 @@ class d {
       baseURL: "https://onlineproxy.io/api/client/v1/",
       headers: {
         "User-Agent": u,
-        Authorization: e
+        Authorization: `Bearer ${e}`
       }
     });
   }

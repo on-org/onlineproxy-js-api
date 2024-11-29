@@ -39,7 +39,7 @@ export default class _base {
       baseURL: 'https://onlineproxy.io/api/client/v1/',
       headers: {
         'User-Agent': userAgent,
-        Authorization: apiToken
+        Authorization: `Bearer ${apiToken}`
       }
     });
   }
