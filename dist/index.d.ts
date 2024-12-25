@@ -64,7 +64,7 @@ export default class OnlineProxyDriver extends _base {
     constructor(apiToken?: string | null, lang?: string, dev_id?: number | null);
     getProxy(id: string): Promise<Proxy>;
     getProxyList(): Promise<ProxyList>;
-    rotateProxy(): Promise<RotateResult>;
+    rotateProxy(token: string): Promise<RotateResult>;
     createOrUpdateProxyComment(id: string, comment: string): Promise<CommentResult>;
     getAvailableProxiesForOrder(): Promise<AvailableProxies>;
     orderProxy(orderData: any): Promise<OrderResult>;
